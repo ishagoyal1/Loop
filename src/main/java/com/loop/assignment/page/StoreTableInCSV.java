@@ -1,44 +1,33 @@
 package com.loop.assignment.page;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.util.StringUtil;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoreTableInExcel {
+public class StoreTableInCSV {
 
     private final WebDriver driver;
 
-    public StoreTableInExcel(WebDriver driver) {
+    public StoreTableInCSV(WebDriver driver) {
         this.driver = driver;
     }
 
-
-    public void storeTableInExcel(String filePath) {
+    public void extractTableAndStoreInCSV(String filePath) {
         WebElement tableElement = driver.findElement(By.xpath("//*[@id='view-table-id']/div/table"));
 
-        // Create an empty Excel workbook
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet("Extracted Transaction Excel");
-
-        // Extract and write headers
+        // Extract and store headers
         List<WebElement> headerCells = tableElement.findElements(By.tagName("th"));
         List<String> headers = new ArrayList<>(); //or number of columns
         for (WebElement headerCell : headerCells) {
             headers.add(headerCell.getText());
         }
 
-        dumpHeadersInExcel(sheet, headers, 0);
-        // Extract and write data rows
+        // Extract and store data rows
         List<WebElement> tableRows = tableElement.findElements(By.tagName("tr"));
         String[][] tableData = new String[tableRows.size()][headers.size()];
 
@@ -53,42 +42,42 @@ public class StoreTableInExcel {
                 } else {
                     populateDataInRow(rowNum-1,tableData, cellValue);
                 }
-
             }
         }
-        dumpDataInExcel(sheet,tableData);
-        // Save the Excel file
-        try {
-            workbook.write(new FileOutputStream((
-                    new File(filePath)
-            )));
-            System.out.println("Data extracted and saved to extracted_table_data.xlsx");
-        } catch (Exception e) {
-            File previousFile = new File("extracted_table_data.xlsx");
-            // Check if the previous file exists and delete it
-            if (previousFile.exists()) {
-                previousFile.delete();
-                System.out.println("Previous file deleted: " + previousFile.getName());
+        dumpDataInCSV(filePath,headers,tableData);
+    }
+
+    private static void dumpDataInCSV(String outputPath, List<String> headers, String[][] tableData) {
+        try (FileWriter writer = new FileWriter(outputPath)) {
+            for (int i = 0; i < headers.size(); i++) {
+                writer.append(escapeSpecialCharacters(headers.get(i)));
+                if (i < headers.size() - 1) {
+                    writer.append(",");
+                }
             }
-            System.err.println("Error saving Excel file: " + e.getMessage());
+            writer.append("\n");
+            for (int i = 0; i < tableData.length-1; i++) {
+                for (int j = 0; j < tableData[i].length; j++) {
+                    System.out.println("Content at table " + i + "," + j + " is " + tableData[i][j]);
+                    writer.append(escapeSpecialCharacters(tableData[i][j]));
+                    if (j < tableData[i].length - 1) {
+                        writer.append(",");
+                    }
+                }
+                writer.append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    private static void dumpHeadersInExcel(XSSFSheet sheet, List<String> headers, int rowNum) {
-        Row headerRow = sheet.createRow(rowNum);
-        for (int i = 0; i < headers.size(); i++) {
-            Cell cell = headerRow.createCell(i);
-            cell.setCellValue(headers.get(i));  // Assuming headers have text
-        }
-    }
-
-    private static void dumpDataInExcel(XSSFSheet sheet, String[][] tableData) {
-        for (int i = 1; i <= tableData.length; i++) {
-            Row sheetRow = sheet.createRow(i);
-            for (int j = 0; j < tableData[0].length; j++) {
-                Cell cell = sheetRow.createCell(j);
-                cell.setCellValue(tableData[i-1][j]);
-            }
+    private static String escapeSpecialCharacters(String value) {
+        if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
+            // If the value contains a comma, double quote, or newline, wrap it in double quotes
+            return "\"" + value.replace("\"", "\"\"") + "\"";
+        } else {
+            // Otherwise, return the original value
+            return value;
         }
     }
     private void populateMergedCells(int rowSpan, int rowIndex, int columnIndex, String[][] tableData, String cellData) {

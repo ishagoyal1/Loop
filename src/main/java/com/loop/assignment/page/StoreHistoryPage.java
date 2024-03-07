@@ -1,8 +1,7 @@
 package com.loop.assignment.page;
 
-import com.loop.assignment.utility.WaitUtility;
+import com.loop.assignment.utility.WaitUtil;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -19,15 +18,15 @@ public class StoreHistoryPage {
     }
 
     public void navigateToHistoryByStore() {
-        WaitUtility.waitSeconds(5);
+        WaitUtil.waitSeconds(5);
         driver.findElement(By.xpath("//span[contains(text(),'3P Chargebacks')]")).click();
-        WaitUtility.waitSeconds(3);
+        WaitUtil.waitSeconds(3);
         driver.findElement(By.xpath("//span[contains(text(),'History by Store')]")).click();
 
     }
 
     public float[] extractSumOfColumns() {
-        WaitUtility.waitSeconds(15);
+        WaitUtil.waitSeconds(15);
         float[] sumList = null;
 
         WebElement element = driver.findElement(By.xpath
@@ -35,9 +34,9 @@ public class StoreHistoryPage {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().build().perform();
 
-        WaitUtility.waitSeconds(5);
+        WaitUtil.waitSeconds(5);
         driver.findElement(By.xpath("//*[@id='menu-']/div[3]/ul/li[3]")).click();
-        WaitUtility.waitSeconds(2);
+        WaitUtil.waitSeconds(2);
         WebElement table = driver.findElement(By.xpath("//*[@class='MuiTable-root css-l6sbfr-MuiTable-root']"));
         String endPageText = driver.findElement(By.xpath("//h6[@class='MuiTypography-root MuiTypography-subtitle2 css-11mtq93-MuiTypography-root'][2]")).getText();
         int totalRows = extractNumberAfterOf(endPageText);
@@ -72,7 +71,7 @@ public class StoreHistoryPage {
             }
             WebElement nextPage = driver.findElement(By.xpath("//button[@data-testid='pagination-next']//*[@data-testid='ChevronRightIcon']"));
             actions.moveToElement(nextPage).click().build().perform();
-            WaitUtility.waitSeconds(3);
+            WaitUtil.waitSeconds(3);
         }
         return sumList;
     }

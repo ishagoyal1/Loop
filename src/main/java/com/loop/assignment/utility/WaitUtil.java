@@ -1,8 +1,6 @@
 package com.loop.assignment.utility;
 
-import org.openqa.selenium.WebDriver;
-
-public class WaitUtility {
+public class WaitUtil {
 
 
     public static void waitSeconds(long sec) {

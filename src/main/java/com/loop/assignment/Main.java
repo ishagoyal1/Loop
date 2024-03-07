@@ -1,7 +1,7 @@
 package com.loop.assignment;
 
-import com.loop.assignment.utility.Comparision;
 import com.loop.assignment.page.*;
+import com.loop.assignment.utility.ComparisonUtil;
 import main.java.com.loop.assignment.config.ConfigReader;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -22,13 +22,13 @@ public class Main {
         historyByStore.navigateToHistoryByStore();
         float[] colSumList = historyByStore.extractSumOfColumns();
         float[] grandTotalList = historyByStore.extractGrandTotal();
-        Assert.assertTrue(Comparision.isEqual(colSumList,grandTotalList));
+        Assert.assertTrue(ComparisonUtil.isEqual(colSumList,grandTotalList));
          //Part II of assignment
         TransactionPage transactions = new TransactionPage(driver);
         transactions.navigateToTransactions();
         transactions.applyFilters();
-        StoreTableInExcel storeTableInExcel = new StoreTableInExcel(driver);
-        storeTableInExcel.storeTableInExcel(configReader.getExcelSavedPath());
+        StoreTableInCSV storeTableInExcel = new StoreTableInCSV(driver);
+        storeTableInExcel.extractTableAndStoreInCSV(configReader.getExcelSavedPath());
 
     }
 }

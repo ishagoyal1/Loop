@@ -7,7 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="amazon" />
+        <module name="tryloop" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="amazon" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>
