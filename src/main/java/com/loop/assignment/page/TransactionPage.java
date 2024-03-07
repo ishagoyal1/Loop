@@ -14,8 +14,6 @@ public class TransactionPage {
     }
 
     public void navigateToTransactions() {
-        WaitUtility.waitSeconds(5);
-        driver.findElement(By.xpath("//span[contains(text(),'3P Chargebacks')]")).click();
         WaitUtility.waitSeconds(3);
         driver.findElement(By.xpath("//span[contains(text(),'Transactions')]")).click();
 

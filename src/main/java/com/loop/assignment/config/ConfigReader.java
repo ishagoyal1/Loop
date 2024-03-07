@@ -30,13 +30,17 @@ public class ConfigReader {
         return properties.getProperty("website");
     }
 
+    public String getExcelSavedPath() {
+        return properties.getProperty("excel.saved.path");
+    }
+
 
     public static void main(String[] args) {
         ConfigReader configReader = new ConfigReader();
-
         System.out.println("Username: " + configReader.getUsername());
         System.out.println("Password: " + configReader.getPassword());
         System.out.println("Website: " + configReader.getWebsite());
+        System.out.println("Saved Path: " + configReader.getExcelSavedPath());
     }
 }
 

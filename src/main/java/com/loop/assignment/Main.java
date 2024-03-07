@@ -22,16 +22,13 @@ public class Main {
         historyByStore.navigateToHistoryByStore();
         float[] colSumList = historyByStore.extractSumOfColumns();
         float[] grandTotalList = historyByStore.extractGrandTotal();
-        //Comparision.isEqual(colSumList,grandTotalList);
-         Assert.assertEquals(colSumList, grandTotalList);
-
+        Assert.assertTrue(Comparision.isEqual(colSumList,grandTotalList));
          //Part II of assignment
-//        TransactionPage transactions = new TransactionPage(driver);
-//        transactions.navigateToTransactions();
-//        transactions.applyFilters();
-//        StoreTableInExcel storeTableInExcel = new StoreTableInExcel(driver);
-//        storeTableInExcel.storeTable();
-
+        TransactionPage transactions = new TransactionPage(driver);
+        transactions.navigateToTransactions();
+        transactions.applyFilters();
+        StoreTableInExcel storeTableInExcel = new StoreTableInExcel(driver);
+        storeTableInExcel.storeTableInExcel(configReader.getExcelSavedPath());
 
     }
 }

@@ -23,7 +23,7 @@ public class StoreTableInExcel {
     }
 
 
-    public void storeTable() {
+    public void storeTableInExcel(String filePath) {
         WebElement tableElement = driver.findElement(By.xpath("//*[@id='view-table-id']/div/table"));
 
         // Create an empty Excel workbook
@@ -60,7 +60,7 @@ public class StoreTableInExcel {
         // Save the Excel file
         try {
             workbook.write(new FileOutputStream((
-                    new File("/Users/ishagoyal/project/LoopAssignment/Extracted Excel/extracted_table_data.xlsx")
+                    new File(filePath)
             )));
             System.out.println("Data extracted and saved to extracted_table_data.xlsx");
         } catch (Exception e) {

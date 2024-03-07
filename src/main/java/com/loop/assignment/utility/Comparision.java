@@ -29,13 +29,11 @@ public class Comparision {
         if (list1.length != list2.length) {
             return false; // Arrays are of different lengths, cannot be equal
         }
-
         for (int i = 0; i < list1.length; i++) {
-            if (Float.compare(list1[i], list2[i]) != 0) {
+            if (Math.abs(list1[i]-list2[i]) > 0.01) {
                 return false; // Found a pair of elements that are not equal
             }
         }
-
         return true; // All elements are equal
     }
 }

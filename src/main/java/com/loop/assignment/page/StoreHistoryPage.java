@@ -51,9 +51,12 @@ public class StoreHistoryPage {
                 if (sumList == null) {
                     sumList = new float[cellList.size()-2];
                 }
-                for (int j = 1; j < cellList.size() - 2; j++) {
+                for (int j = 1; j < cellList.size() - 1; j++) {
                     WebElement cell = cellList.get(j);
                     String strCellValue = cell.getText();
+                    if(strCellValue == null || strCellValue.isBlank()){
+                        continue;
+                    }
                     String intCellValue = strCellValue.replace("$", "").replace(",", "");
                     System.out.println("i- " + i + " j- " + j + " cell- " + intCellValue);
                     float num = Float.parseFloat(intCellValue);
