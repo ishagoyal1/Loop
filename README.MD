@@ -5,6 +5,9 @@ This project focuses on automating the functionalities of [TryLoop](https://app.
 ## Screen Recording
 Session Recording can be accessed [here!](https://www.dropbox.com/scl/fi/ja2xltmbuitu6yiepcxaw/Screen-Recording-2024-03-07-at-10.03.02-PM.mov?rlkey=nk390uyokqp8nk6hsdb7jw64h&dl=0)
 
+## Screenshot Folder
+`screenshot`
+
 ## CSV output
 `extracted_csv/extracted_table_data.csv`
 
